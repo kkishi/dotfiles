@@ -94,3 +94,6 @@
                 (progn
                   (shell-command (concat "buildifier " (buffer-file-name)))
                   (find-alternate-file (buffer-file-name))))))
+
+; For sh
+(setq sh-basic-offset 2)
