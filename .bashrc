@@ -6,16 +6,18 @@ if [[ -d ~/.aws ]]; then
   fi
 
   export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk.x86_64"
-  export PATH="/home/ec2-user/projects/bazel-0.5.3/output:$PATH"
-  export PATH="/usr/local/go/bin:$PATH"
-  export PATH="/home/ec2-user/go/bin:$PATH"
-  export PATH="/home/ec2-user/projects/protoc-3.4.0-linux-x86_64/bin:$PATH"
+  export PATH="$HOME/projects/bazel-0.5.3/output:$PATH"
+  export PATH="$HOME/projects/protoc-3.4.0-linux-x86_64/bin:$PATH"
 
   # NVM
   if [[ -f ~/.nvm/nvm.sh ]]; then
     source ~/.nvm/nvm.sh;
   fi
 fi
+
+# Fo Go
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 # From https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
 # Avoid duplicates
