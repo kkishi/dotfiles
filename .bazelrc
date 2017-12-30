@@ -1,0 +1,8 @@
+# From https://github.com/bazelbuild/rules_closure
+build --strategy=Closure=worker
+
+# From https://stackoverflow.com/questions/34382360/decrease-bazel-memory-usage
+# Without this, bazel exausts the RAM.
+startup --host_jvm_args=-Xmx4g
+
+test --test_output=all
