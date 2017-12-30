@@ -1,0 +1,7 @@
+[user]
+	name = Keisuke Kishimoto
+	email = keisuke.kishimoto@gmail.com
+[core]
+	editor = emacs
+[alias]
+  graph = log --graph --decorate --all
