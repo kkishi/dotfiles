@@ -1,0 +1,10 @@
+defutf8 on
+utf8 on on
+vbell on
+autodetach on
+startup_message off
+defscrollback 100000
+hardstatus on
+shelltitle "$ |zsh"
+hardstatus alwayslastline "%`%-w%{=b bw}%n %t%{-}%+w"
+escape ^z^z
