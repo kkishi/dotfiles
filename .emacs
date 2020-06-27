@@ -102,10 +102,35 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (color-theme go-mode))))
+ '(package-selected-packages (quote (clang-format yasnippet color-theme go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+; For Atcoder
+(defun ojt ()
+  (interactive)
+  (save-buffer)
+  (shell-command (concat "g++ -O2 -std=c++17 -DDEBUG " (buffer-file-name (current-buffer)) " && oj t -t 2 --mle 1024")))
+(defun ojs ()
+  (interactive)
+  (save-buffer)
+  (shell-command (concat "oj submit -y --no-open " (buffer-file-name (current-buffer)))))
+(defun ojts ()
+  (interactive)
+  (save-buffer)
+  (shell-command (concat "../../submit.sh " (buffer-file-name (current-buffer)))))
+
+; For Yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
+(setq yas-indent-line 'fixed)
+
+; For clang-format
+(add-hook 'c-mode-common-hook
+          (function (lambda ()
+                      (add-hook 'before-save-hook
+                                'clang-format-buffer))))

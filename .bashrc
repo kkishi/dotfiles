@@ -21,7 +21,7 @@ export PATH="$HOME/go/bin:$PATH"
 
 # From https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
 # Avoid duplicates
-export HISTCONTROL=ignoredups:erasedups  
+export HISTCONTROL=ignoredups:erasedups
 # When the shell exits, append to the history file instead of overwriting it
 shopt -s histappend
 
@@ -33,3 +33,9 @@ export HISTFILESIZE=
 export HISTSIZE=
 
 alias emacs="emacs -nw"
+
+# For pip3
+export PATH="$HOME/.local/bin:$PATH"
+
+# For screen
+export SCREENDIR="$HOME/.screen"
