@@ -102,7 +102,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (clang-format yasnippet color-theme go-mode))))
+ '(package-selected-packages
+   (quote
+    (flycheck clang-format yasnippet color-theme go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -114,7 +116,7 @@
 (defun ojt ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "g++ -O2 -std=c++17 -DDEBUG " (buffer-file-name (current-buffer)) " && oj t -t 2 --mle 1024")))
+  (shell-command (concat "g++ -O2 -std=c++17 -DDEBUG " (buffer-file-name (current-buffer)) " && oj t -t 3 --mle 1024")))
 (defun ojs ()
   (interactive)
   (save-buffer)
@@ -130,7 +132,18 @@
 (setq yas-indent-line 'fixed)
 
 ; For clang-format
-(add-hook 'c-mode-common-hook
+(add-hook 'c++-mode-hook
           (function (lambda ()
                       (add-hook 'before-save-hook
                                 'clang-format-buffer))))
+
+; For Flycheck
+(global-flycheck-mode)
+
+; For Flycheck to use c++17.
+; https://stackoverflow.com/questions/30949847/configuring-flycheck-to-work-with-c11
+(add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++17")))
+
+; Without these lines, Flycheck complains.
+(provide 'emacs)
+;;; .emacs ends here
