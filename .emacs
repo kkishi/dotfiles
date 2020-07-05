@@ -135,7 +135,7 @@
 (add-hook 'c++-mode-hook
           (function (lambda ()
                       (add-hook 'before-save-hook
-                                'clang-format-buffer))))
+                                'clang-format-buffer nil t))))
 
 ; For Flycheck
 (global-flycheck-mode)
