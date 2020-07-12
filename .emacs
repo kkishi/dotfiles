@@ -124,7 +124,7 @@
 (defun ojts ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "../../submit.sh " (buffer-file-name (current-buffer)))))
+  (shell-command (concat "../../../submit.sh " (buffer-file-name (current-buffer)))))
 
 ; For Yasnippet
 (require 'yasnippet)
