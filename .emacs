@@ -144,6 +144,9 @@
 ; https://stackoverflow.com/questions/30949847/configuring-flycheck-to-work-with-c11
 (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++17")))
 
+; Open .h files with c++-mode.
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ; Without these lines, Flycheck complains.
 (provide 'emacs)
 ;;; .emacs ends here
