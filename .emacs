@@ -53,7 +53,7 @@
 
 (when (>= emacs-major-version 24)
   (require 'package)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (package-initialize)
   )
@@ -104,7 +104,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck clang-format yasnippet color-theme go-mode))))
+    (magit flycheck clang-format yasnippet color-theme go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -116,15 +116,19 @@
 (defun ojt ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "g++ -O2 -std=c++17 -DDEBUG " (buffer-file-name (current-buffer)) " && oj t -t 3 --mle 1024")))
+  (shell-command (concat "go run ../../../oj/oj.go -t --file=" (buffer-file-name (current-buffer)))))
+(defun ojd ()
+  (interactive)
+  (save-buffer)
+  (shell-command (concat "go run ../../../oj/oj.go -t -dbg --file=" (buffer-file-name (current-buffer)))))
 (defun ojs ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "oj submit -y --no-open " (buffer-file-name (current-buffer)))))
-(defun ojts ()
+  (shell-command (concat "go run ../../../oj/oj.go -t -s --file=" (buffer-file-name (current-buffer)))))
+(defun ojf ()
   (interactive)
   (save-buffer)
-  (shell-command (concat "../../../submit.sh " (buffer-file-name (current-buffer)))))
+  (shell-command (concat "go run ../../../oj/oj.go -s --file=" (buffer-file-name (current-buffer)))))
 
 ; For Yasnippet
 (require 'yasnippet)
