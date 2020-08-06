@@ -1,14 +1,25 @@
 ; Assign C-h to backspace.
 (global-set-key "\C-h" 'delete-backward-char)
 
-; Do not create backup files.
+; Do not use the backup functionalities.
 (setq make-backup-files nil)
+(setq auto-save-default nil)
+
+; Do not use abbrevs.
+(setq save-abbrevs nil)
+(setq-default abbrev-mode nil)
 
 ; Set scroll step to 1.
 (setq scroll-step 1)
 
 ; No startup message.
 (setq inhibit-startup-message t)
+
+; No scratch message.
+(setq initial-scratch-message "")
+
+; No menu bar.
+(menu-bar-mode 0)
 
 ; For iswitch.
 (iswitchb-mode 1)
@@ -150,6 +161,10 @@
 
 ; Open .h files with c++-mode.
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+; Color theme
+(load-theme 'dark-laptop t t)
+(enable-theme 'dark-laptop)
 
 ; Without these lines, Flycheck complains.
 (provide 'emacs)
