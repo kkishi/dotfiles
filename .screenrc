@@ -8,3 +8,4 @@ hardstatus on
 shelltitle "$ |zsh"
 hardstatus alwayslastline "%`%-w%{=b bw}%n %t%{-}%+w"
 escape ^z^z
+term screen-256color
