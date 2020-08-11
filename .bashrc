@@ -39,3 +39,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # For screen
 export SCREENDIR="$HOME/.screen"
+
+# For pcstd
+export CPLUS_INCLUDE_PATH="$HOME/projects/pcstd"
