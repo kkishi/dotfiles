@@ -165,6 +165,20 @@
 (load-theme 'dark-laptop t t)
 (enable-theme 'dark-laptop)
 
+; Do not blink cursor (always on)
+(setq visible-cursor nil)
+
+; Process ansi color escape in the shell output. From:
+; https://stackoverflow.com/questions/5819719/emacs-shell-command-output-not-showing-ansi-colors-but-the-code?rq=1
+; It's said to be a hack, but it works nicely.
+(defadvice display-message-or-buffer (before ansi-color activate)
+  "Process ANSI color codes in shell output."
+  (let ((buf (ad-get-arg 0)))
+    (and (bufferp buf)
+         (string= (buffer-name buf) "*Shell Command Output*")
+         (with-current-buffer buf
+                      (ansi-color-apply-on-region (point-min) (point-max))))))
+
 ; Without these lines, Flycheck complains.
 (provide 'emacs)
 ;;; .emacs ends here
