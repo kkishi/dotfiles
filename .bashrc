@@ -40,14 +40,11 @@ export PATH="$HOME/.local/bin:$PATH"
 # For screen
 export SCREENDIR="$HOME/.screen"
 
-# For atcoder
-export CPLUS_INCLUDE_PATH="$HOME/projects/atcoder/include:$CPLUS_INCLUDE_PATH"
-
-# For pclib
-export CPLUS_INCLUDE_PATH="$HOME/projects/atcoder/pclib:$CPLUS_INCLUDE_PATH"
-
 # For pcstd
 export CPLUS_INCLUDE_PATH="$HOME/projects/pcstd:$CPLUS_INCLUDE_PATH"
 
 # For ac-library
 export CPLUS_INCLUDE_PATH="$HOME/projects/ac-library:$CPLUS_INCLUDE_PATH"
+
+# direnv
+eval "$(direnv hook bash)"
