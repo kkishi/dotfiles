@@ -124,10 +124,15 @@
  )
 
 ; For Atcoder
+(defun clip ()
+  "Expand the solution and save it to the clipboard."
+  (if (executable-find "clip.exe")
+      (shell-command (concat "preprocess --file=" (buffer-file-name (current-buffer)) " | clip.exe"))))
 (defun atcoder (opts)
   "Run atcoder command with the commandline options given as OPTS."
   (save-buffer)
-  (shell-command (concat "atcoder " opts " " (buffer-file-name (current-buffer)))))
+  (clip)
+  (async-shell-command (concat "atcoder " opts " " (buffer-file-name (current-buffer)))))
 (defun ojt ()
   "Run oj -t."
   (interactive) (atcoder "-t"))
@@ -143,6 +148,19 @@
 (defun ojf ()
   "Run oj -submit without test."
   (interactive) (atcoder "-s"))
+
+(add-hook 'c++-mode-hook
+          (function (lambda () (add-hook 'after-save-hook 'ojt))))
+
+; For Codeforces
+(defun cff ()
+  "Run codeforces submit with the currently edited file."
+  (interactive)
+  (async-shell-command (concat "codeforces submit " (buffer-file-name (current-buffer)))))
+
+; By default, async-shell-command asks if I want to rename buffer, when multiple
+; commands are to run. This skips the confirmation.
+(setq async-shell-command-buffer 'rename-buffer)
 
 ; For Yasnippet
 (require 'yasnippet)
