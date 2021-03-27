@@ -128,10 +128,17 @@
   "Expand the solution and save it to the clipboard."
   (if (executable-find "clip.exe")
       (shell-command (concat "preprocess --file=" (buffer-file-name (current-buffer)) " | clip.exe"))))
+(defun kill-async-shell-command ()
+  "Kill the ongoing async shell command."
+  (let ((buf (get-buffer "*Async Shell Command*")))
+    (when buf
+      (let ((proc (get-buffer-process buf)))
+        (when proc (kill-process proc))))))
 (defun atcoder (opts)
   "Run atcoder command with the commandline options given as OPTS."
   (save-buffer)
   (clip)
+  (kill-async-shell-command)
   (async-shell-command (concat "atcoder " opts " " (buffer-file-name (current-buffer)))))
 (defun ojt ()
   "Run oj -t."
@@ -148,9 +155,13 @@
 (defun ojf ()
   "Run oj -submit without test."
   (interactive) (atcoder "-s"))
-
-(add-hook 'c++-mode-hook
-          (function (lambda () (add-hook 'after-save-hook 'ojt))))
+(define-prefix-command 'oj-map)
+(global-set-key "\C-o" 'oj-map)
+(define-key 'oj-map "\C-t" 'ojt)
+(define-key 'oj-map "\C-d" 'ojd)
+(define-key 'oj-map "\C-p" 'ojp)
+(define-key 'oj-map "\C-s" 'ojs)
+(define-key 'oj-map "\C-f" 'ojf)
 
 ; For Codeforces
 (defun cff ()
