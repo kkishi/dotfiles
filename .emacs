@@ -62,12 +62,17 @@
 ; Do not use tabs for indentation.
 (setq-default indent-tabs-mode nil)
 
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-  (package-initialize)
-  )
+; package
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+(defun maybe-install-package (package)
+  "Install PACKAGE if not done already."
+  (unless (package-installed-p package)
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (package-install package)))
 
 ; For golang
 (setq-default tab-width 2)
@@ -115,7 +120,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (markdown-mode magit flycheck clang-format yasnippet color-theme go-mode))))
+    (markdown-mode magit clang-format color-theme go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -173,11 +178,6 @@
 ; commands are to run. This skips the confirmation.
 (setq async-shell-command-buffer 'rename-buffer)
 
-; For Yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
-(setq yas-indent-line 'fixed)
-
 ; For clang-format
 (add-hook 'c++-mode-hook
           (function (lambda ()
@@ -185,12 +185,14 @@
                                 'clang-format-buffer nil t))))
 
 ; For Flycheck
+(maybe-install-package 'flycheck)
 (global-flycheck-mode)
 
 ; Open .h files with c++-mode.
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
 ; Color theme
+(maybe-install-package 'color-theme-modern)
 (load-theme 'dark-laptop t t)
 (enable-theme 'dark-laptop)
 
@@ -207,6 +209,9 @@
          (string= (buffer-name buf) "*Shell Command Output*")
          (with-current-buffer buf
                       (ansi-color-apply-on-region (point-min) (point-max))))))
+
+; Suppress errors for dotfiles.
+(setq vc-follow-symlinks t)
 
 ; Without these lines, Flycheck complains.
 (provide 'emacs)
