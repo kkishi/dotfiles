@@ -75,6 +75,7 @@
     (package-install package)))
 
 ; For golang
+(maybe-install-package 'go-mode)
 (setq-default tab-width 2)
 (global-set-key "\C-xo" (lambda () (interactive) (other-window 1)))
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
