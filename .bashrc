@@ -48,3 +48,12 @@ export CPLUS_INCLUDE_PATH="$HOME/projects/ac-library:$CPLUS_INCLUDE_PATH"
 
 # direnv
 eval "$(direnv hook bash)"
+
+# Color the terminal (borrowed from the Ubuntu default .bashrc)
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\$ '
+PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+[[ -f ~/.dircolors ]] && eval "$(dircolors -b ~/.dircolors)"
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
