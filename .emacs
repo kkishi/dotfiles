@@ -79,23 +79,6 @@
 (setq-default tab-width 2)
 (global-set-key "\C-xo" (lambda () (interactive) (other-window 1)))
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
-(add-hook 'before-save-hook #'gofmt-before-save)
-
-; For goimports
-(defun my-go-mode-hook ()
-  ; Use goimports instead of go-fmt
-  (setq gofmt-command "goimports")
-  ; Call Gofmt before saving
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  ; Customize compile command to run go build
-  (if (not (string-match "go" compile-command))
-      (set (make-local-variable 'compile-command)
-           "go build -v && go test -v && go vet"))
-  ; Godef jump key binding
-  (local-set-key (kbd "M-.") 'godef-jump)
-  (local-set-key (kbd "M-*") 'pop-tag-mark)
-)
-(add-hook 'go-mode-hook 'my-go-mode-hook)
 
 ; Use python-mode for bazel files
 (add-to-list 'auto-mode-alist '("BUILD" . (lambda () (python-mode))))
@@ -121,7 +104,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (markdown-mode magit clang-format color-theme go-mode))))
+    (company lsp-mode markdown-mode magit clang-format color-theme go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -133,7 +116,9 @@
 (defun clip ()
   "Expand the solution and save it to the clipboard."
   (if (executable-find "clip.exe")
-      (shell-command (concat "preprocess --file=" (buffer-file-name (current-buffer)) " | clip.exe"))))
+      (shell-command (concat "preprocess --file=" (buffer-file-name (current-buffer)) " | clip.exe")))
+  (if (executable-find "xsel")
+      (shell-command (concat "preprocess --file=" (buffer-file-name (current-buffer)) " | xsel --clipboard > /dev/null"))))
 (defun kill-async-shell-command ()
   "Kill the ongoing async shell command."
   (let ((buf (get-buffer "*Async Shell Command*")))
@@ -160,7 +145,8 @@
   (interactive) (atcoder "-t -s"))
 (defun ojf ()
   "Run oj -submit without test."
-  (interactive) (atcoder "-s"))
+  (interactive)
+  (if (y-or-n-p "Force-submit? ") (atcoder "-s")))
 (define-prefix-command 'oj-map)
 (global-set-key "\C-o" 'oj-map)
 (define-key 'oj-map "\C-t" 'ojt)
@@ -178,6 +164,10 @@
 ; By default, async-shell-command asks if I want to rename buffer, when multiple
 ; commands are to run. This skips the confirmation.
 (setq async-shell-command-buffer 'rename-buffer)
+
+; Force splitting windows vertically for new buffers (WIP).
+(setq split-height-threshold nil)
+(setq split-width-threshold 160)
 
 ; For clang-format
 (add-hook 'c++-mode-hook
@@ -211,8 +201,22 @@
          (with-current-buffer buf
                       (ansi-color-apply-on-region (point-min) (point-max))))))
 
-; Suppress errors for dotfiles.
+; For ~/dotfiles. Recent Ubuntu versions complain when dot files are symlinked.
 (setq vc-follow-symlinks t)
+
+; company
+(maybe-install-package 'company)
+
+; https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#loading-lsp-mode-in-emacs
+(maybe-install-package 'lsp-mode)
+(add-hook 'go-mode-hook #'lsp-deferred)
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+     (add-hook 'before-save-hook #'lsp-format-buffer t t)
+     (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
 ; Without these lines, Flycheck complains.
 (provide 'emacs)
