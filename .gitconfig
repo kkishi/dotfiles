@@ -4,4 +4,4 @@
 [core]
 	editor = emacs
 [alias]
-  graph = log --graph --decorate --all
+	graph = log --graph --decorate --all

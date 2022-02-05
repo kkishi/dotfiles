@@ -57,3 +57,15 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+# Sync programming contest repositories.
+syncpc() {
+  for c in atcoder aoj yukicoder codeforces; do
+    pushd ~/projects/$c
+    git pull
+    go install github.com/kkishi/$c/cmd/...
+    cd pclib
+    git pull
+    popd
+  done
+}

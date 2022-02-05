@@ -104,7 +104,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company lsp-mode markdown-mode magit clang-format color-theme go-mode))))
+    (company lsp-mode markdown-mode magit flycheck clang-format color-theme go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
