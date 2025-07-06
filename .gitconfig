@@ -5,3 +5,5 @@
 	editor = emacs
 [alias]
 	graph = log --graph --decorate --all
+[init]
+	defaultBranch = main

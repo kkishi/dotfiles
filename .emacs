@@ -22,13 +22,13 @@
 (menu-bar-mode 0)
 
 ; For iswitch.
-(iswitchb-mode 1)
-(add-hook 'iswitchb-define-mode-map-hook
-          (lambda ()
-            (define-key iswitchb-mode-map "\C-n" 'iswitchb-next-match)
-            (define-key iswitchb-mode-map "\C-p" 'iswitchb-prev-match)
-            (define-key iswitchb-mode-map "\C-f" 'iswitchb-next-match)
-            (define-key iswitchb-mode-map "\C-b" 'iswitchb-prev-match)))
+; (iswitchb-mode 1)
+; (add-hook 'iswitchb-define-mode-map-hook
+;           (lambda ()
+;             (define-key iswitchb-mode-map "\C-n" 'iswitchb-next-match)
+;             (define-key iswitchb-mode-map "\C-p" 'iswitchb-prev-match)
+;             (define-key iswitchb-mode-map "\C-f" 'iswitchb-next-match)
+;             (define-key iswitchb-mode-map "\C-b" 'iswitchb-prev-match)))
 
 ; Do not truncate lines.
 (setq truncate-lines t)
@@ -103,8 +103,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (company lsp-mode markdown-mode magit flycheck clang-format color-theme go-mode))))
+   '(gnu-elpa-keyring-update gptel use-package impatient-mode company lsp-mode markdown-mode magit flycheck clang-format color-theme go-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -142,11 +141,11 @@
   (interactive) (atcoder "-t -c prof"))
 (defun ojs ()
   "Run oj -t, then oj -submit if the test passes."
-  (interactive) (atcoder "-t -s"))
+  (interactive) (atcoder "-t -s -use_oj_submit"))
 (defun ojf ()
   "Run oj -submit without test."
   (interactive)
-  (if (y-or-n-p "Force-submit? ") (atcoder "-s")))
+  (if (y-or-n-p "Force-submit? ") (atcoder "-s -use_oj_submit")))
 (define-prefix-command 'oj-map)
 (global-set-key "\C-o" 'oj-map)
 (define-key 'oj-map "\C-t" 'ojt)
@@ -221,3 +220,6 @@
 ; Without these lines, Flycheck complains.
 (provide 'emacs)
 ;;; .emacs ends here
+
+; https://github.com/karthink/gptel
+(gptel-make-gemini "Gemini" :key (auth-source-pick-first-password :host "generativelanguage.googleapis.com") :stream t)
